@@ -4,7 +4,7 @@ function checkStringLength (stringToCheck, maxStringLength) {
 	return (stringToCheck.length) <= maxStringLength;
 }
 
-console.log(checkStringLength('Мама', 5));
+checkStringLength('Мама', 5);
 
 //function which will check if string is a palidrome.
 
@@ -17,7 +17,7 @@ function checkStringPalindrom(stringToCheck) {
 	return emptyString === normalString;
 }
 
-console.log(checkStringPalindrom('довод'));
+checkStringPalindrom('довод');
 
 //function which will find and return numbers in string.
 
@@ -29,7 +29,7 @@ function checkNumbersInString (stringToCheck) {
 			emptyString += newString[i];
 		}
 	}
-	return emptyString.toString();
+	return parseInt(emptyString, 10);
 }
 
-console.log(checkNumbersInString(-135.355));
+checkNumbersInString('кефир -20.5');
