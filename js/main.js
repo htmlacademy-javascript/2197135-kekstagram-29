@@ -120,3 +120,6 @@ const photos = () => [
 	{id :25, photo: 'photos/25.jpg', description: getDescription(), likes: userLikes, comment: randomComments},
 ];
 
+const randomPhotos = Array.from({length: 25}, photos);
+
+console.log(randomPhotos);
