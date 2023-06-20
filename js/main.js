@@ -6,6 +6,7 @@ const MAX_COMMENTS = 30;
 const MIN_AVATARS = 1;
 const MAX_AVATARS = 6;
 
+//getting random number from stated range
 const getRandomNumber = (a, b) => {
 	const lower = Math.ceil(Math.min(a, b));
 	const upper = Math.floor(Math.max(a, b));
@@ -13,8 +14,10 @@ const getRandomNumber = (a, b) => {
 	return Math.floor(result);
 };
 
+//getting random element from stated array
 const getRandomArrayEllement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
+//getting random avatars for commentators
 const getRandomAvatars = () => {
 	const avatars = [];
 	while (avatars.length <= MAX_AVATARS - 1) {
@@ -23,6 +26,7 @@ const getRandomAvatars = () => {
 	return getRandomArrayEllement(avatars);
 };
 
+//array of messages which should be stated by commentators
 const MESSAGES = [
 	'Всё отлично',
  	'В целом все неплохо, но не все',
@@ -31,15 +35,11 @@ const MESSAGES = [
 	'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше',
 	'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
+//array of names of the commentators
 const NAMES = ['Влад', 'Денис','Дима', 'Артур', 'AnalExecuter69', 'Альберт'];
 
-// const createComment = (undefined, index = 0) => {
-// 	const id = index + 1;
-// 	return { id, avatar: getRandomAvatars(), message: getRandomArrayEllement(MESSAGES), name: getRandomArrayEllement(NAMES)};
-// };
 
-// const comments = Array.from({length: getRandomNumber(MIN_COMMENTS, MAX_COMMENTS)}, createComment);
-
+//description of photos
 const DESCRIPTIONS = [
 	'фото отдыха',
 	'фото со сьемок',
@@ -68,6 +68,7 @@ const DESCRIPTIONS = [
 	'а так можно было?'
 ];
 
+//function fo generating ID
 const getIDGenerator = () => {
 	let latestID = 0;
 	return () => {
@@ -80,14 +81,14 @@ const photoID = getIDGenerator();
 const commentID = getIDGenerator();
 const photoNumberURL = getIDGenerator();
 
+//function for creating random comment;
 const createComment = () => ({id: commentID(), avatar: getRandomAvatars(), message: getRandomArrayEllement(MESSAGES), name: getRandomArrayEllement(NAMES)});
 
-
+//function which is generating a random photo object
 const createPhoto = () => {
 	const comments = Array.from({length: getRandomNumber(MIN_COMMENTS, MAX_COMMENTS)}, createComment);
 	return {id: photoID(), url: `photos/${photoNumberURL()}.jpg`, description: getRandomArrayEllement(DESCRIPTIONS), likes: getRandomNumber(MIN_LIKES, MAX_LIKES), comments};
 };
 
+//creating array with random photos objects
 const randomPhotos = Array.from({length:MAX_PHOTOS}, createPhoto);
-
-console.log(randomPhotos);
