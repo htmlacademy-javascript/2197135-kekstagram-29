@@ -80,10 +80,14 @@ const photoID = getIDGenerator();
 const commentID = getIDGenerator();
 const photoNumberURL = getIDGenerator();
 
+const createComment = () => ({id: commentID(), avatar: getRandomAvatars(), message: getRandomArrayEllement(MESSAGES), name: getRandomArrayEllement(NAMES)});
+
+
 const createPhoto = () => {
-	const createComment = () => ({id: commentID(), avatar: getRandomAvatars(), message: getRandomArrayEllement(MESSAGES), name: getRandomArrayEllement(NAMES)});
 	const comments = Array.from({length: getRandomNumber(MIN_COMMENTS, MAX_COMMENTS)}, createComment);
 	return {id: photoID(), url: `photos/${photoNumberURL()}.jpg`, description: getRandomArrayEllement(DESCRIPTIONS), likes: getRandomNumber(MIN_LIKES, MAX_LIKES), comments};
 };
 
 const randomPhotos = Array.from({length:MAX_PHOTOS}, createPhoto);
+
+console.log(randomPhotos);
