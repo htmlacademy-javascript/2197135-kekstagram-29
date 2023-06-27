@@ -1,24 +1,32 @@
-const MAX_PHOTOS = 25;
-const MIN_LIKES = 15;
-const MAX_LIKES = 200;
-const MIN_COMMENTS = 0;
-const MAX_COMMENTS = 30;
-const MIN_AVATARS = 1;
-const MAX_AVATARS = 6;
+import { getRandomArrayElement,getRandomNumber,getIDGenerator } from './utils';
 
-//getting random number from stated range
-const getRandomNumber = (a, b) => {
-	const lower = Math.ceil(Math.min(a, b));
-	const upper = Math.floor(Math.max(a, b));
-	const result = Math.random() * (upper - lower + 1) + lower;
-	return Math.floor(result);
-};
+const enum Default {
+	MAX_PHOTOS = 25,
+	MIN_LIKES = 15,
+	MAX_LIKES = 200,
+    MIN_COMMENTS = 0,
+	MAX_COMMENTS = 30,
+	MIN_AVATARS = 1,
+    MAX_AVATARS = 6,
+}
 
-//getting random element from stated array
-const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+interface PhotoComment {
+	id: number;
+	avatar: `img/avatar-${number}.svg`;
+	message: string;
+	name: string;
+}
+
+interface Photo {
+	id:number;
+	url: `photos/${number}.jpg`
+	description: string;
+	likes: number;
+	comments: PhotoComment[];
+}
 
 //getting random avatars for commentators
-const AVATARS = Array.from({length: MAX_AVATARS}, (_, i) => `img/avatar-${i + MIN_AVATARS}.svg`);
+const AVATARS = Array.from({length: Default.MAX_AVATARS}, (_, i) => `img/avatar-${i + Default.MIN_AVATARS}.svg`);
 const getRandomAvatars = () => getRandomArrayElement(AVATARS);
 
 //array of messages which should be stated by commentators
@@ -63,28 +71,19 @@ const DESCRIPTIONS = [
 	'а так можно было?'
 ];
 
-//function fo generating ID
-const getIDGenerator = () => {
-	let latestID = 0;
-	return () => {
-		latestID = latestID + 1;
-		return latestID;
-	};
-};
-
 const photoID = getIDGenerator();
 const commentID = getIDGenerator();
 const photoNumberURL = getIDGenerator();
 
 //function for creating random comment;
-const createComment = () => ({id: commentID(), avatar: getRandomAvatars(), message: getRandomArrayElement(MESSAGES), name: getRandomArrayElement(NAMES)});
+const createComment = ():PhotoComment => ({id: commentID(), avatar: getRandomAvatars(), message: getRandomArrayElement(MESSAGES), name: getRandomArrayElement(NAMES)});
 
 //function which is generating a random photo object
-const createPhoto = () => {
-	const comments = Array.from({length: getRandomNumber(MIN_COMMENTS, MAX_COMMENTS)}, createComment);
-	return {id: photoID(), url: `photos/${photoNumberURL()}.jpg`, description: getRandomArrayElement(DESCRIPTIONS), likes: getRandomNumber(MIN_LIKES, MAX_LIKES), comments};
+const createPhoto = ():Photo => {
+	const comments = Array.from({length: getRandomNumber(Default.MIN_COMMENTS, Default.MAX_COMMENTS)}, createComment);
+	return {id: photoID(), url: `photos/${photoNumberURL()}.jpg`, description: getRandomArrayElement(DESCRIPTIONS), likes: getRandomNumber(Default.MIN_LIKES, Default.MAX_LIKES), comments};
 };
 
 //creating array with random photos objects
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const randomPhotos = Array.from({length:MAX_PHOTOS}, createPhoto);
+const randomPhotos = Array.from({length:Default.MAX_PHOTOS}, createPhoto);
