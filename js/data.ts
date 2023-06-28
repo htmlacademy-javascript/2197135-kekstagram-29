@@ -26,7 +26,7 @@ interface Photo {
 }
 
 //getting random avatars for commentators
-const AVATARS = Array.from({length: Default.MAX_AVATARS}, (_, i) => i + Default.MIN_AVATARS);
+const AVATARS = Array.from({length: Default.MAX_AVATARS}, (_, i) => `img/avatar-${i + Default.MIN_AVATARS}.svg` as const);
 const getRandomAvatars = () => getRandomArrayElement(AVATARS);
 
 //array of messages which should be stated by commentators
@@ -87,6 +87,4 @@ const createPhoto = ():Photo => {
 //creating array with random photos objects
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const randomPhotos = Array.from({length:Default.MAX_PHOTOS}, createPhoto);
-
-console.log(randomPhotos);
 
