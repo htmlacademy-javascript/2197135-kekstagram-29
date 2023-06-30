@@ -4,7 +4,7 @@
  * @param b :maximum of range
  * @returns random number from the stated range
  */
-const getRandomNumber = (a:number, b:number) => {
+const getRandomNumber = (a : number, b : number) => {
 	const lower = Math.ceil(Math.min(a, b));
 	const upper = Math.floor(Math.max(a, b));
 	const result = Math.random() * (upper - lower + 1) + lower;
@@ -17,7 +17,7 @@ const getRandomNumber = (a:number, b:number) => {
  * @returns return random array ellement
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRandomArrayElement = (elements:any[]) => elements[getRandomNumber(0, elements.length - 1)];
+const getRandomArrayElement = <El>(elements: El[] | readonly El[]) => elements[getRandomNumber(0, elements.length - 1)];
 
 /**
  * @returns adding +1 to previous ID generating stacks of ID ofr each array element;
