@@ -1,6 +1,6 @@
 import {getRandomArrayElement,getRandomNumber,getIDGenerator} from './utils.ts';
 
-const enum Default {
+export const enum Default {
 	MAX_PHOTOS = 25,
 	MIN_LIKES = 15,
 	MAX_LIKES = 200,
@@ -86,5 +86,4 @@ const createPhoto = ():Photo => {
 
 //creating array with random photos objects
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const randomPhotos = Array.from({length:Default.MAX_PHOTOS}, createPhoto);
-
+export const randomPhotos = (photosQuantity:number) => Array.from({length:photosQuantity }, createPhoto);
