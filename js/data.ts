@@ -1,6 +1,6 @@
 import {getRandomArrayElement,getRandomNumber,getIDGenerator} from './utils.ts';
 
-export const enum Default {
+const enum Default {
 	MAX_PHOTOS = 25,
 	MIN_LIKES = 15,
 	MAX_LIKES = 200,
