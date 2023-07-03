@@ -86,5 +86,4 @@ const createPhoto = ():Photo => {
 
 //creating array with random photos objects
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const randomPhotos = Array.from({length:Default.MAX_PHOTOS}, createPhoto);
-
+export const randomPhotos = (photosQuantity:number) => Array.from({length:photosQuantity }, createPhoto);
