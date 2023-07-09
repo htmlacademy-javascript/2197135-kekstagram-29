@@ -1,8 +1,6 @@
-import {randomPhotos} from './data.ts';
+import {randomPhotos, MAX_PHOTOS} from './data.ts';
 
-const MAX_PHOTOS = 25;
-
-const pictures = document.querySelector('.pictures');
+export const pictures = document.querySelector('.pictures');
 
 const pictureTemplate = document.querySelector('#picture').content;
 

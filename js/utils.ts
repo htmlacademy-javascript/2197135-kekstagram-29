@@ -30,4 +30,11 @@ function getIDGenerator() {
 	};
 }
 
-export {getRandomNumber, getRandomArrayElement, getIDGenerator};
+/**
+ * @param evt - event.target
+ * @returns check if the buttun escape is pressed down. Use in renderPhoto on EventListeners
+ */
+
+const isEscapeKey = (evt: KeyboardEvent) => evt.key === 'Escape';
+
+export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey};

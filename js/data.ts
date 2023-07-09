@@ -1,7 +1,6 @@
 import {getRandomArrayElement,getRandomNumber,getIDGenerator} from './utils.ts';
 
-const enum Default {
-	MAX_PHOTOS = 25,
+export const enum Default {
 	MIN_LIKES = 15,
 	MAX_LIKES = 200,
     MIN_COMMENTS = 0,
@@ -9,6 +8,8 @@ const enum Default {
 	MIN_AVATARS = 1,
     MAX_AVATARS = 6,
 }
+
+export const MAX_PHOTOS = 25;
 
 interface PhotoComment {
 	id: number;
