@@ -29,7 +29,6 @@ const createComment = ({avatar, name, message}) => {
 };
 
 export const createModalPhotoComments = (comments) => {
-	// First five comments
 	let commentAmount = 0;
 	bigPictureComments.innerHTML = '';
 	const renderNextCommentPack = () => {
