@@ -1,6 +1,7 @@
 import { imageUploadForm,} from './upload-photo-form';
 import { uploadedPicture } from './upload-photo-adjusting';
 
+
 const slider = imageUploadForm.querySelector('.effect-level__slider');
 const sliderValue = imageUploadForm.querySelector('.effect-level__value');
 const sliderContainer = imageUploadForm.querySelector('.effect-level');
