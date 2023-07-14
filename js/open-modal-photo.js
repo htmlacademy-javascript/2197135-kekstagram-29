@@ -9,7 +9,7 @@ const bigPictureComments = bigPicture.querySelector('.social__comments');
 const bigPictureComment = bigPictureComments.querySelector('li');
 const bigPictureCommentsCounter = bigPicture.querySelector('.social__comment-count');
 const bigPictureCommentsLoaderButton = bigPicture.querySelector('.comments-loader');
-const body = document.querySelector('body');
+export const body = document.querySelector('body');
 
 let onLoaderClick = null;
 
@@ -53,31 +53,38 @@ export const createModalPhotoComments = (comments) => {
 	bigPictureCommentsLoaderButton.addEventListener('click', onLoaderClick);
 };
 
-const onDocumentKeydown = (evt) => {
+const onDocumentKeydown = (evt, modalWindow) => {
 	if (isEscapeKey(evt)) {
 		evt.preventDefault();
-		closeBigPicture();
+		body.classList.remove('modal-open');
+		modalWindow.classList.add('hidden');
 	}
 };
 
-function openBigPicture () {
-	bigPicture.classList.remove('hidden');
-	document.addEventListener('keydown', onDocumentKeydown);
+function openModalWindow (modalWindow) {
+	modalWindow.classList.remove('hidden');
+	document.addEventListener('keydown', (evt) => {
+		onDocumentKeydown(evt, modalWindow);
+	});
 	body.classList.add('modal-open');
 }
 
-function closeBigPicture () {
-	bigPicture.classList.add('hidden');
-	document.removeEventListener('keydown', onDocumentKeydown);
+function closeModalWindow (modalWindow) {
+	modalWindow.classList.add('hidden');
+	document.removeEventListener('keydown',onDocumentKeydown);
 	body.classList.remove('modal-open');
-	bigPictureCommentsLoaderButton.removeEventListener('click', onLoaderClick);
 }
 
-bigPictureClose.addEventListener('click', () => closeBigPicture());
+const closeBigPicture = () => {
+	closeModalWindow(bigPicture);
+	bigPictureCommentsLoaderButton.removeEventListener('click', onLoaderClick);
+};
+
+bigPictureClose.addEventListener('click', closeBigPicture);
 
 export const createModalPhoto = (photo) => {
 	renderModalPhoto(photo);
-	openBigPicture();
+	openModalWindow(bigPicture);
 	createModalPhotoComments(photo.comments);
 };
 

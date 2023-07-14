@@ -37,4 +37,5 @@ function getIDGenerator() {
 
 const isEscapeKey = (evt: KeyboardEvent) => evt.key === 'Escape';
 
+
 export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey};
