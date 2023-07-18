@@ -1,10 +1,11 @@
-import { imageUploadForm,} from './upload-photo-form';
-import { uploadedPicture } from './upload-photo-adjusting';
+import {uploadedPicture} from './upload-photo-form';
 
 
-const slider = imageUploadForm.querySelector('.effect-level__slider');
-const sliderValue = imageUploadForm.querySelector('.effect-level__value');
-const sliderContainer = imageUploadForm.querySelector('.effect-level');
+const slider = document.querySelector('.effect-level__slider');
+const sliderValue = document.querySelector('.effect-level__value');
+const sliderContainer = document.querySelector('.effect-level');
+const sliderEffects = document.querySelector('.effects');
+sliderContainer.classList.add('hidden');
 
 const chromeEffect = {
 	name: 'grayscale',
@@ -77,6 +78,7 @@ const createSlider = ({minValue, maxValue, stepValue}) =>{
 		},
 		start: maxValue,
 		step: stepValue,
+		connect: 'lower'
 	});
 };
 
@@ -98,9 +100,17 @@ const applyEffect = (effect) => {
 };
 
 for (const id in effects) {
-	const button = imageUploadForm.querySelector(`#${id}`);
+	const button = sliderEffects.querySelector(`#${id}`);
 	button.addEventListener('change', (evt) => {
 		evt.preventDefault();
 		applyEffect(effects[id]);
 	});
 }
+
+const resetEffectInModal = (value) => {
+	uploadedPicture.style.filter = `${value}`;
+	slider.noUiSlider.destroy();
+	sliderContainer.classList.add('hidden');
+};
+
+export const resetEffect = () => resetEffectInModal(defaultEffect.name);
