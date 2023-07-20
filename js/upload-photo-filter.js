@@ -109,7 +109,6 @@ for (const id in effects) {
 
 const resetEffectInModal = (value) => {
 	uploadedPicture.style.filter = `${value}`;
-	slider.noUiSlider.destroy();
 	sliderContainer.classList.add('hidden');
 };
 

@@ -1,4 +1,4 @@
-import {isEscapeKey} from './utils';
+import {onDocumentKeydown} from './utils';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = bigPicture.querySelector('.cancel');
@@ -51,14 +51,6 @@ export const createModalPhotoComments = (comments) => {
 	onLoaderClick = renderNextCommentPack;
 
 	bigPictureCommentsLoaderButton.addEventListener('click', onLoaderClick);
-};
-
-const onDocumentKeydown = (evt, modalWindow) => {
-	if (isEscapeKey(evt)) {
-		evt.preventDefault();
-		body.classList.remove('modal-open');
-		modalWindow.classList.add('hidden');
-	}
 };
 
 function openModalWindow (modalWindow) {

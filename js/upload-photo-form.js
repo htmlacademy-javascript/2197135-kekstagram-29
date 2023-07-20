@@ -1,7 +1,8 @@
-import { isEscapeKey } from './utils';
+import { isEscapeKey, showAlert} from './utils';
 import { body } from './open-modal-photo';
 import { resetPicture } from './upload-photo-adjusting';
 import { resetEffect } from './upload-photo-filter';
+import { sendData, showErrorAlert, showSuccessAlert } from './api';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
@@ -9,6 +10,7 @@ const imageUploadModalWindow = imageUploadForm.querySelector('.img-upload__overl
 const imageUploadModalWindowClose = imageUploadForm.querySelector('.cancel');
 const imageHashtagField = imageUploadForm.querySelector('.text__hashtags');
 const imageCommentField = imageUploadForm.querySelector('.text__description');
+const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 export const uploadedPicture = imageUploadForm.querySelector('.img-upload__preview img');
 
 
@@ -80,18 +82,21 @@ const validateHashtags = (value) => {
 
 pristine.addValidator(imageHashtagField, validateHashtags, () => hashtagErrorMessage);
 
-imageUploadForm.addEventListener('submit', (evt) => {
-	evt.preventDefault();
-	pristine.validate();
-});
+const blockSubmitButton = () => {
+	submitButton.disabled = true;
+};
 
-const showModal = () => {
+const unblockSubmitButton = () => {
+	submitButton.disabled = false;
+};
+
+export const showModal = () => {
 	imageUploadModalWindow.classList.remove('hidden');
 	body.classList.add('modal');
 	document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const hideModal = () => {
+export const hideModal = () => {
 	imageUploadForm.reset();
 	resetPicture();
 	pristine.reset();
@@ -100,6 +105,24 @@ const hideModal = () => {
 	body.classList.remove('modal-open');
 	document.removeEventListener('keydown', onDocumentKeydown);
 };
+
+imageUploadForm.addEventListener('submit', (evt) => {
+	evt.preventDefault();
+	const isValid = pristine.validate();
+	if(isValid) {
+		blockSubmitButton();
+		sendData(new FormData(imageUploadForm))
+			.then(() => {
+				hideModal();
+				showSuccessAlert();
+			})
+			.catch((err) => {
+				showErrorAlert();
+				showAlert(err.message);
+			})
+			.finally(unblockSubmitButton);
+	}
+});
 
 function onDocumentKeydown (evt) {
 	const isTextFieldFocused = () => document.activeElement === imageHashtagField || document.activeElement === imageCommentField;

@@ -1,4 +1,4 @@
-import {uploadedPicture} from './upload-photo-form';
+import {uploadedPicture } from './upload-photo-form';
 
 const reduceScaleButton = document.querySelector('.scale__control--smaller');
 const increaseScaleButton = document.querySelector('.scale__control--bigger');
@@ -8,12 +8,16 @@ const SCALE_STEP = 25;
 
 let currentScale = 100;
 
+const updateScale = () => {
+	uploadedPicture.style.transform = `scale(${currentScale / 100})`;
+	scaleValue.value = `${currentScale}%`;
+};
+
 reduceScaleButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
 	if (currentScale > SCALE_STEP) {
 		currentScale -= SCALE_STEP;
-		uploadedPicture.style.transform = `scale(${currentScale / 100})`;
-		scaleValue.value = `${currentScale}%`;
+		updateScale();
 	}
 });
 
@@ -21,14 +25,12 @@ increaseScaleButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
 	if (MAX_PICTURE_SCALE >= currentScale + SCALE_STEP) {
 		currentScale += SCALE_STEP;
-		uploadedPicture.style.transform = `scale(${currentScale / 100})`;
-		scaleValue.value = `${currentScale}%`;
+		updateScale();
 	}
 });
 
-const scaleImage = (value) => {
-	uploadedPicture.style.transform = `scale(${value / 100})`;
-	scaleValue.value = value;
-};
 
-export const resetPicture = () => scaleImage(MAX_PICTURE_SCALE);
+export const resetPicture = () => {
+	currentScale = MAX_PICTURE_SCALE;
+	updateScale();
+};
