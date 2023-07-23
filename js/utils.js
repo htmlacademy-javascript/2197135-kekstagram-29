@@ -4,7 +4,7 @@
  * @param b :maximum of range
  * @returns random number from the stated range
  */
-const getRandomNumber = (a : number, b : number) => {
+const getRandomNumber = (a, b) => {
 	const lower = Math.ceil(Math.min(a, b));
 	const upper = Math.floor(Math.max(a, b));
 	const result = Math.random() * (upper - lower + 1) + lower;
@@ -17,7 +17,7 @@ const getRandomNumber = (a : number, b : number) => {
  * @returns return random array ellement
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRandomArrayElement = <El>(elements: El[] | readonly El[]) => elements[getRandomNumber(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
 /**
  * @returns adding +1 to previous ID generating stacks of ID ofr each array element;
@@ -35,9 +35,9 @@ function getIDGenerator() {
  * @returns check if the buttun escape is pressed down. Use in renderPhoto on EventListeners
  */
 
-const isEscapeKey = (evt: KeyboardEvent) => evt.key === 'Escape';
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const onDocumentKeydown = (evt : KeyboardEvent, modalWindow : Element) => {
+const onDocumentKeydown = (evt, modalWindow) => {
 	if (isEscapeKey(evt)) {
 		evt.preventDefault();
 		document.body.classList.remove('modal-open');
@@ -47,7 +47,7 @@ const onDocumentKeydown = (evt : KeyboardEvent, modalWindow : Element) => {
 
 const ALERT_SHOW_TIME = 5000;
 
-const showAlert = (message : string) => {
+const showAlert = (message) => {
 	const alertContainer = document.createElement('div');
 	alertContainer.style.zIndex = '100';
 	alertContainer.style.position = 'absolute';
@@ -68,5 +68,19 @@ const showAlert = (message : string) => {
 	}, ALERT_SHOW_TIME);
 };
 
+function debounce (callback, timeoutDelay = 500) {
+	// Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+	// к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+	let timeoutId;
+	return (...rest) => {
+	  // Перед каждым новым вызовом удаляем предыдущий таймаут,
+	  // чтобы они не накапливались
+	  clearTimeout(timeoutId);
+	  // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+	  timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+	  // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
+	  // пока действие совершается чаще, чем переданная задержка timeoutDelay
+	};
+}
 
-export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey, onDocumentKeydown, showAlert};
+export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey, onDocumentKeydown, showAlert, debounce,};
