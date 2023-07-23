@@ -1,4 +1,4 @@
-import { isEscapeKey, showAlert} from './utils';
+import { isEscapeKey, showAlert, isUniqueArray} from './utils';
 import { body } from './open-modal-photo';
 import { resetPicture } from './upload-photo-adjusting';
 import { resetEffect } from './upload-photo-filter';
@@ -12,25 +12,19 @@ const imageHashtagField = imageUploadForm.querySelector('.text__hashtags');
 const imageCommentField = imageUploadForm.querySelector('.text__description');
 const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 export const uploadedPicture = imageUploadForm.querySelector('.img-upload__preview img');
+const effectsPreview = imageUploadForm.querySelectorAll('.effects__preview');
 
 
 const MAX_HASHTAGS = 5;
-const MAX_SYMBOLS_IN_HASHTAG = 20;
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
 
 const hashtagErrorMessages = {
 	INVALID_HASHTAGS_NUMBER_MESSAGE:'превышено количество хэш-тегов',
 	INVALID_HASHTAGS_SYMBOLS_MESSAGE: 'введён невалидный хэш-тег',
 	INVALID_HASHTAGS_UNIQUE_MESSAGE:'хэш-теги повторяются',
-	INVALID_HASHTAGS_START_MESSAGE: 'хэш-тег начинается с символа #',
-	INVALID_HASHTAGS_HASHTAGONLY_MESSAGE: 'хеш-тег не может состоять только из одной решётки',
-	INVALID_HASHTAGS_SYMBOLS_NUMBER_MESSAGE: 'максимальная длина одного хэш-тега 20 символов, включая решётку'
 };
 
-let hashtagErrorMessage = '';
-
-const isUniqueArray = (array) => new Set(array).size === array.length;
-
-const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/;
+let hashtagArray = [];
 
 const pristine = new Pristine(imageUploadForm, {
 	classTo: 'img-upload__field-wrapper',
@@ -38,49 +32,23 @@ const pristine = new Pristine(imageUploadForm, {
 	errorTextClass: 'img-upload__field-wrapper--error-message'
 });
 
-const validateHashtags = (value) => {
-	if (value.length === 0) {
-		return true;
-	}
-
-	const normalizeHashtags = value.trim().toLocaleLowerCase().split(' ');
-
-	if (normalizeHashtags.length > MAX_HASHTAGS) {
-		hashtagErrorMessage = hashtagErrorMessages.INVALID_HASHTAGS_NUMBER_MESSAGE;
-		return false;
-	}
-
-	if(!isUniqueArray(normalizeHashtags)) {
-		hashtagErrorMessage = hashtagErrorMessages.INVALID_HASHTAGS_UNIQUE_MESSAGE;
-		return false;
-	}
-
-	return normalizeHashtags.every((hashtag) => {
-		if (hashtag[0] !== '#') {
-			hashtagErrorMessage = hashtagErrorMessages.INVALID_HASHTAGS_START_MESSAGE;
-			return false;
-		}
-
-		if (hashtag.length > MAX_SYMBOLS_IN_HASHTAG) {
-			hashtagErrorMessage = hashtagErrorMessages.INVALID_HASHTAGS_SYMBOLS_NUMBER_MESSAGE;
-			return false;
-		}
-
-		if(hashtag === '#') {
-			hashtagErrorMessage = hashtagErrorMessages.INVALID_HASHTAGS_HASHTAGONLY_MESSAGE;
-			return false;
-		}
-
-		if(!VALID_SYMBOLS.test(hashtag)) {
-			hashtagErrorMessage = hashtagErrorMessages.INVALID_HASHTAGS_SYMBOLS_MESSAGE;
-			return false;
-		}
-
-		return true;
-	});
+const isValidHashtag = () => {
+	const hashtagPattern = /^#[a-zа-яё0-9]{1,19}$/i;
+	return hashtagArray.every((item) => hashtagPattern.test(item));
 };
 
-pristine.addValidator(imageHashtagField, validateHashtags, () => hashtagErrorMessage);
+const isValidAmount = () => hashtagArray.length <= MAX_HASHTAGS;
+
+const isUniqueHashtags = () => isUniqueArray(hashtagArray);
+
+pristine.addValidator(imageHashtagField, isValidHashtag, hashtagErrorMessages.INVALID_HASHTAGS_SYMBOLS_MESSAGE);
+pristine.addValidator(imageHashtagField, isValidAmount, hashtagErrorMessages.INVALID_HASHTAGS_NUMBER_MESSAGE);
+pristine.addValidator(imageHashtagField, isUniqueHashtags, hashtagErrorMessages.INVALID_HASHTAGS_UNIQUE_MESSAGE);
+
+imageHashtagField.addEventListener('blur', () => {
+	hashtagArray = imageHashtagField.value.trim().toLowerCase().split(' ').filter(Boolean);
+	pristine.validate();
+});
 
 const blockSubmitButton = () => {
 	submitButton.disabled = true;
@@ -134,6 +102,15 @@ function onDocumentKeydown (evt) {
 
 imageUploadInput.addEventListener('input', () => {
 	showModal();
+	const file = imageUploadInput.files[0];
+	const fileName = file.name.toLowerCase();
+	const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+	if (matches) {
+		uploadedPicture.src = URL.createObjectURL(file);
+		effectsPreview.forEach((effectPreview) => {
+			effectPreview.style.backgroundImage = `url('${uploadedPicture.src}')`;
+		});
+	}
 });
 
 imageUploadModalWindowClose.addEventListener('click', () => {

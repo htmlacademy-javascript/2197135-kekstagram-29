@@ -45,6 +45,8 @@ const onDocumentKeydown = (evt, modalWindow) => {
 	}
 };
 
+const isUniqueArray = (array) => array.length === new Set(array).size;
+
 const ALERT_SHOW_TIME = 5000;
 
 const showAlert = (message) => {
@@ -83,4 +85,4 @@ function debounce (callback, timeoutDelay = 500) {
 	};
 }
 
-export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey, onDocumentKeydown, showAlert, debounce,};
+export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey, onDocumentKeydown, showAlert, debounce, isUniqueArray};
