@@ -1,8 +1,9 @@
 import { createModalPhoto } from './open-modal-photo.js';
 
-export const pictures = document.querySelector('.pictures');
+const picturesElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
+export const clearThumbnails = () => picturesElement.querySelectorAll('.picture').forEach((picture) => picture.remove());
 
 const createThumbnail = (({url, id, description, likes, comments}) => {
 	const pictureBlock = pictureTemplate.cloneNode(true);
@@ -16,6 +17,7 @@ const createThumbnail = (({url, id, description, likes, comments}) => {
 
 
 export const renderThumbnails = (photos) => {
+	clearThumbnails();
 	const fragment = document.createDocumentFragment();
 	const thumbnails = photos.map((photo) => {
 		const thumbnail = createThumbnail(photo);
@@ -26,7 +28,6 @@ export const renderThumbnails = (photos) => {
 		return thumbnail;
 	});
 	fragment.append(...thumbnails);
-	pictures.append(fragment);
+	picturesElement.append(fragment);
 };
 
-export const clearThumbnails = () => pictures.querySelectorAll('.picture').forEach((picture) => picture.remove());

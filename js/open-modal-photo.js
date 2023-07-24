@@ -5,8 +5,8 @@ const bigPictureClose = bigPicture.querySelector('.cancel');
 const bigPictureImage = bigPicture.querySelector('.big-picture__img img');
 const bigPictureLikesNumber = bigPicture.querySelector('.likes-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
-const bigPictureComments = bigPicture.querySelector('.social__comments');
-const bigPictureComment = bigPictureComments.querySelector('li');
+const bigPictureCommentsElement = bigPicture.querySelector('.social__comments');
+const bigPictureComment = bigPictureCommentsElement.querySelector('li');
 const bigPictureCommentCount = bigPicture.querySelector('.comments-count');
 const bigPictureCurrentCommentCount = bigPicture.querySelector('.current-comments-count');
 const bigPictureCommentsLoaderButton = bigPicture.querySelector('.comments-loader');
@@ -24,16 +24,16 @@ const renderModalPhoto = ({ url, description, likes }) => {
 
 const createComment = ({ avatar, name, message }) => {
 	const comment = bigPictureComment.cloneNode(true);
-	bigPictureComment.querySelector('.social__picture').src = avatar;
-	bigPictureComment.querySelector('.social__picture').alt = name;
-	bigPictureComment.querySelector('.social__text').textContent = message;
+	comment.querySelector('.social__picture').src = avatar;
+	comment.querySelector('.social__picture').alt = name;
+	comment.querySelector('.social__text').textContent = message;
 	return comment;
 };
 
 export const createModalPhotoComments = (comments) => {
 	let commentAmount = 0;
 	bigPictureCommentCount.textContent = comments.length;
-	bigPictureComments.innerHTML = '';
+	bigPictureCommentsElement.innerHTML = '';
 	const renderNextCommentPack = () => {
 		let endOfSlice = commentAmount + 5;
 		const isAllShown = endOfSlice >= comments.length;
@@ -44,7 +44,7 @@ export const createModalPhotoComments = (comments) => {
 			const comment = createComment(item);
 			fragment.append(comment);
 		});
-		bigPictureComments.append(fragment);
+		bigPictureCommentsElement.append(fragment);
 		commentAmount = endOfSlice;
 		bigPictureCommentsLoaderButton.classList.toggle('hidden', isAllShown);
 		bigPictureCurrentCommentCount.textContent = commentAmount;
