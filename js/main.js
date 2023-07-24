@@ -6,6 +6,7 @@ import { initThumbnailSorting} from './filter.js';
 import { getData } from './api.js';
 import { showAlert} from './utils.js';
 
+
 getData()
 	.then(initThumbnailSorting)
 	.catch((err) => {
