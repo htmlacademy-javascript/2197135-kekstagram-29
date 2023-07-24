@@ -11,13 +11,13 @@ const getRandomNumber = (a, b) => {
 	return Math.floor(result);
 };
 
-/**getting random element from stated array
- *
+/**
+ * getting random element from stated array
  * @param elements - array from which random ellement should be taken
  * @returns return random array ellement
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+const getRandomArrayElement = (elements) =>
+	elements[getRandomNumber(0, elements.length - 1)];
 
 /**
  * @returns adding +1 to previous ID generating stacks of ID ofr each array element;
@@ -66,23 +66,32 @@ const showAlert = (message) => {
 	document.body.append(alertContainer);
 
 	setTimeout(() => {
-	  alertContainer.remove();
+		alertContainer.remove();
 	}, ALERT_SHOW_TIME);
 };
 
-function debounce (callback, timeoutDelay = 500) {
+function debounce(callback, timeoutDelay = 500) {
 	// Используем замыкания, чтобы id таймаута у нас навсегда приклеился
 	// к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
 	let timeoutId;
 	return (...rest) => {
-	  // Перед каждым новым вызовом удаляем предыдущий таймаут,
-	  // чтобы они не накапливались
-	  clearTimeout(timeoutId);
-	  // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
-	  timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-	  // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
-	  // пока действие совершается чаще, чем переданная задержка timeoutDelay
+		// Перед каждым новым вызовом удаляем предыдущий таймаут,
+		// чтобы они не накапливались
+		clearTimeout(timeoutId);
+		// Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+		timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+		// Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
+		// пока действие совершается чаще, чем переданная задержка timeoutDelay
 	};
 }
 
-export {getRandomNumber, getRandomArrayElement, getIDGenerator, isEscapeKey, onDocumentKeydown, showAlert, debounce, isUniqueArray};
+export {
+	getRandomNumber,
+	getRandomArrayElement,
+	getIDGenerator,
+	isEscapeKey,
+	onDocumentKeydown,
+	showAlert,
+	debounce,
+	isUniqueArray,
+};

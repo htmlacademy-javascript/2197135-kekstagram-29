@@ -8,12 +8,15 @@ const Route = {
 
 const ErrorText = {
 	GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
-	SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз'
+	SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
 
-
-const successUploadMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorUploadMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const successUploadMessageTemplate = document
+	.querySelector('#success')
+	.content.querySelector('.success');
+const errorUploadMessageTemplate = document
+	.querySelector('#error')
+	.content.querySelector('.error');
 
 const showMessage = (messageTemplate) => {
 	const messageElement = messageTemplate.cloneNode(true);
@@ -22,20 +25,20 @@ const showMessage = (messageTemplate) => {
 	const closeMessage = () => {
 		document.body.removeChild(messageElement);
 		document.removeEventListener('keydown', onDocumentKeydown);
-    	document.removeEventListener('click', onDocumentClick);
+		document.removeEventListener('click', onDocumentClick);
 	};
 
-	function onDocumentKeydown (evt) {
-	    if (isEscapeKey(evt)) {
-	        closeMessage();
+	function onDocumentKeydown(evt) {
+		if (isEscapeKey(evt)) {
+			closeMessage();
 			evt.stopPropagation();
-	    }
+		}
 	}
 
-	function onDocumentClick (evt) {
-	    if (evt.target === messageElement) {
-	        closeMessage();
-	    }
+	function onDocumentClick(evt) {
+		if (evt.target === messageElement) {
+			closeMessage();
+		}
 	}
 
 	messageButton.addEventListener('click', (evt) => {
@@ -56,30 +59,30 @@ const showSuccessAlert = () => {
 	showMessage(successUploadMessageTemplate);
 };
 
+const getData = () =>
+	fetch(`${BASE_URL}${Route.GET_DATA}`)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error();
+			}
+			return response.json();
+		})
+		.catch(() => {
+			throw new Error(ErrorText.GET_DATA);
+		});
 
-const getData = () => fetch(`${BASE_URL}${Route.GET_DATA}`)
-	.then((response) => {
-		if(!response.ok) {
-			throw new Error();
-		}
-		return response.json();
-	})
-	.catch(() => {
-		throw new Error(ErrorText.GET_DATA);
-	});
-
-const sendData = (body) => fetch(`${BASE_URL}${Route.SEND_DATA}`,
-	{
+const sendData = (body) =>
+	fetch(`${BASE_URL}${Route.SEND_DATA}`, {
 		method: 'POST',
 		body,
 	})
-	.then((response) => {
-		if(!response.ok) {
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error();
+			}
+		})
+		.catch(() => {
 			throw new Error();
-		}
-	})
-	.catch(() => {
-		throw new Error();
-	});
+		});
 
-export {getData, sendData, showSuccessAlert, showErrorAlert};
+export { getData, sendData, showSuccessAlert, showErrorAlert };

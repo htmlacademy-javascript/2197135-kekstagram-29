@@ -1,4 +1,4 @@
-import {onDocumentKeydown} from './utils';
+import { onDocumentKeydown } from './utils';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = bigPicture.querySelector('.cancel');
@@ -7,21 +7,24 @@ const bigPictureLikesNumber = bigPicture.querySelector('.likes-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureComments = bigPicture.querySelector('.social__comments');
 const bigPictureComment = bigPictureComments.querySelector('li');
-const bigPictureCommentsCounter = bigPicture.querySelector('.social__comment-count');
-const bigPictureCommentsLoaderButton = bigPicture.querySelector('.comments-loader');
+const bigPictureCommentsCounter = bigPicture.querySelector(
+	'.social__comment-count'
+);
+const bigPictureCommentsLoaderButton =
+	bigPicture.querySelector('.comments-loader');
 
 export const body = document.querySelector('body');
 
 let onLoaderClick = null;
 
-const renderModalPhoto = (({url, description, likes}) => {
+const renderModalPhoto = ({ url, description, likes }) => {
 	bigPictureImage.src = url;
 	bigPictureImage.alt = description;
 	bigPictureLikesNumber.textContent = likes;
 	bigPictureDescription.textContent = description;
-});
+};
 
-const createComment = ({avatar, name, message}) => {
+const createComment = ({ avatar, name, message }) => {
 	const comment = bigPictureComment.cloneNode(true);
 	bigPictureComment.querySelector('.social__picture').src = avatar;
 	bigPictureComment.querySelector('.social__picture').alt = name;
@@ -39,7 +42,7 @@ export const createModalPhotoComments = (comments) => {
 		const nextPack = comments.slice(commentAmount, endOfSlice);
 		const fragment = document.createDocumentFragment();
 		nextPack.forEach((item) => {
-    		const comment = createComment(item);
+			const comment = createComment(item);
 			fragment.append(comment);
 		});
 		bigPictureComments.append(fragment);
@@ -54,7 +57,7 @@ export const createModalPhotoComments = (comments) => {
 	bigPictureCommentsLoaderButton.addEventListener('click', onLoaderClick);
 };
 
-function openModalWindow (modalWindow) {
+function openModalWindow(modalWindow) {
 	modalWindow.classList.remove('hidden');
 	document.addEventListener('keydown', (evt) => {
 		onDocumentKeydown(evt, modalWindow);
@@ -62,9 +65,9 @@ function openModalWindow (modalWindow) {
 	body.classList.add('modal-open');
 }
 
-function closeModalWindow (modalWindow) {
+function closeModalWindow(modalWindow) {
 	modalWindow.classList.add('hidden');
-	document.removeEventListener('keydown',onDocumentKeydown);
+	document.removeEventListener('keydown', onDocumentKeydown);
 	body.classList.remove('modal-open');
 }
 
@@ -80,4 +83,3 @@ export const createModalPhoto = (photo) => {
 	openModalWindow(bigPicture);
 	createModalPhotoComments(photo.comments);
 };
-
