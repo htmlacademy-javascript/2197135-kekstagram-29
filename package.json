@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "vite",
-		"build": "tsc && vite build",
+		"build": "vite build",
 		"preview": "vite preview",
 		"lint": "eslint js/",
 		"fix": "eslint js/ --fix",
