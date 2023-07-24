@@ -1,4 +1,4 @@
-import { isEscapeKey, showAlert, isUniqueArray} from './utils';
+import { isEscapeKey, isUniqueArray} from './utils';
 import { body } from './open-modal-photo';
 import { resetPicture } from './upload-photo-adjusting';
 import { resetEffect } from './upload-photo-filter';
@@ -16,6 +16,7 @@ const effectsPreview = imageUploadForm.querySelectorAll('.effects__preview');
 
 
 const MAX_HASHTAGS = 5;
+const MAX_COMMENTS_SYMBOLS = 140;
 const FILE_TYPES = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
 
 const hashtagErrorMessages = {
@@ -23,6 +24,8 @@ const hashtagErrorMessages = {
 	INVALID_HASHTAGS_SYMBOLS_MESSAGE: 'введён невалидный хэш-тег',
 	INVALID_HASHTAGS_UNIQUE_MESSAGE:'хэш-теги повторяются',
 };
+
+const commentErrorMessage = 'Количество символов не должно превышать 140';
 
 let hashtagArray = [];
 
@@ -41,9 +44,12 @@ const isValidAmount = () => hashtagArray.length <= MAX_HASHTAGS;
 
 const isUniqueHashtags = () => isUniqueArray(hashtagArray);
 
+const isValidLength = () => imageCommentField.value.length <= MAX_COMMENTS_SYMBOLS;
+
 pristine.addValidator(imageHashtagField, isValidHashtag, hashtagErrorMessages.INVALID_HASHTAGS_SYMBOLS_MESSAGE);
 pristine.addValidator(imageHashtagField, isValidAmount, hashtagErrorMessages.INVALID_HASHTAGS_NUMBER_MESSAGE);
 pristine.addValidator(imageHashtagField, isUniqueHashtags, hashtagErrorMessages.INVALID_HASHTAGS_UNIQUE_MESSAGE);
+pristine.addValidator(imageCommentField, isValidLength, commentErrorMessage);
 
 imageHashtagField.addEventListener('blur', () => {
 	hashtagArray = imageHashtagField.value.trim().toLowerCase().split(' ').filter(Boolean);
@@ -84,9 +90,8 @@ imageUploadForm.addEventListener('submit', (evt) => {
 				hideModal();
 				showSuccessAlert();
 			})
-			.catch((err) => {
+			.catch(() => {
 				showErrorAlert();
-				showAlert(err.message);
 			})
 			.finally(unblockSubmitButton);
 	}

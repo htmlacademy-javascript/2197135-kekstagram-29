@@ -79,7 +79,7 @@ const sendData = (body) => fetch(`${BASE_URL}${Route.SEND_DATA}`,
 		}
 	})
 	.catch(() => {
-		throw new Error(ErrorText.SEND_DATA);
+		throw new Error();
 	});
 
 export {getData, sendData, showSuccessAlert, showErrorAlert};

@@ -9,6 +9,7 @@ const bigPictureComments = bigPicture.querySelector('.social__comments');
 const bigPictureComment = bigPictureComments.querySelector('li');
 const bigPictureCommentsCounter = bigPicture.querySelector('.social__comment-count');
 const bigPictureCommentsLoaderButton = bigPicture.querySelector('.comments-loader');
+
 export const body = document.querySelector('body');
 
 let onLoaderClick = null;
