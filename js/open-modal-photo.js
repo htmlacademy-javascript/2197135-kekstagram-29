@@ -7,11 +7,9 @@ const bigPictureLikesNumber = bigPicture.querySelector('.likes-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureComments = bigPicture.querySelector('.social__comments');
 const bigPictureComment = bigPictureComments.querySelector('li');
-const bigPictureCommentsCounter = bigPicture.querySelector(
-	'.social__comment-count'
-);
-const bigPictureCommentsLoaderButton =
-	bigPicture.querySelector('.comments-loader');
+const bigPictureCommentCount = bigPicture.querySelector('.comments-count');
+const bigPictureCurrentCommentCount = bigPicture.querySelector('.current-comments-count');
+const bigPictureCommentsLoaderButton = bigPicture.querySelector('.comments-loader');
 
 export const body = document.querySelector('body');
 
@@ -34,6 +32,7 @@ const createComment = ({ avatar, name, message }) => {
 
 export const createModalPhotoComments = (comments) => {
 	let commentAmount = 0;
+	bigPictureCommentCount.textContent = comments.length;
 	bigPictureComments.innerHTML = '';
 	const renderNextCommentPack = () => {
 		let endOfSlice = commentAmount + 5;
@@ -48,7 +47,7 @@ export const createModalPhotoComments = (comments) => {
 		bigPictureComments.append(fragment);
 		commentAmount = endOfSlice;
 		bigPictureCommentsLoaderButton.classList.toggle('hidden', isAllShown);
-		bigPictureCommentsCounter.textContent = `${commentAmount} из ${comments.length} комментариев`;
+		bigPictureCurrentCommentCount.textContent = commentAmount;
 	};
 
 	renderNextCommentPack();

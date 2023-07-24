@@ -24,7 +24,7 @@ const showMessage = (messageTemplate) => {
 
 	const closeMessage = () => {
 		document.body.removeChild(messageElement);
-		document.removeEventListener('keydown', onDocumentKeydown);
+		document.removeEventListener('keydown', onDocumentKeydown, true);
 		document.removeEventListener('click', onDocumentClick);
 	};
 
@@ -46,7 +46,7 @@ const showMessage = (messageTemplate) => {
 		closeMessage();
 	});
 
-	document.addEventListener('keydown', onDocumentKeydown);
+	document.addEventListener('keydown', onDocumentKeydown, true);
 	document.addEventListener('click', onDocumentClick);
 
 	document.body.append(messageElement);

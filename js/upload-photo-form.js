@@ -66,7 +66,7 @@ const unblockSubmitButton = () => {
 
 export const showModal = () => {
 	imageUploadModalWindow.classList.remove('hidden');
-	body.classList.add('modal');
+	body.classList.add('modal-open');
 	document.addEventListener('keydown', onDocumentKeydown);
 };
 

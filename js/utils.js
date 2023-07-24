@@ -85,6 +85,8 @@ function debounce(callback, timeoutDelay = 500) {
 	};
 }
 
+const sortRandomly = () => Math.random() - 0.5;
+
 export {
 	getRandomNumber,
 	getRandomArrayElement,
@@ -94,4 +96,5 @@ export {
 	showAlert,
 	debounce,
 	isUniqueArray,
+	sortRandomly
 };
