@@ -1,30 +1,33 @@
 import { createModalPhoto } from './open-modal-photo.js';
 
-export const pictures = document.querySelector('.pictures');
-
+const picturesElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const createThumbnail = (({url, description, likes, comments}) => {
+export const clearThumbnails = () => picturesElement.querySelectorAll('.picture').forEach((picture) => picture.remove());
+
+const createThumbnail = (({url, id, description, likes, comments}) => {
 	const pictureBlock = pictureTemplate.cloneNode(true);
 	pictureBlock.querySelector('.picture__img').src = url;
 	pictureBlock.querySelector('.picture__img').alt = description;
+	pictureBlock.dataset.id = id.toString();
 	pictureBlock.querySelector('.picture__likes').textContent = likes;
 	pictureBlock.querySelector('.picture__comments').textContent = comments.length;
 	return pictureBlock;
 });
 
-export const renderThumbnails = (photos, container) => {
-	const fragment = document.createDocumentFragment();
-	photos.forEach((photo) => {
-		const thumbnail = createThumbnail(photo);
 
+export const renderThumbnails = (photos) => {
+	clearThumbnails();
+	const fragment = document.createDocumentFragment();
+	const thumbnails = photos.map((photo) => {
+		const thumbnail = createThumbnail(photo);
 		thumbnail.addEventListener('click', (evt) => {
 			evt. preventDefault();
 			createModalPhoto(photo);
 		});
-		fragment.append(thumbnail);
+		return thumbnail;
 	});
-
-	container.append(fragment);
+	fragment.append(...thumbnails);
+	picturesElement.append(fragment);
 };
 

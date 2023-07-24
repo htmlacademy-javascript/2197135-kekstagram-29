@@ -2,15 +2,12 @@ import './render-thumbnail.js';
 import './upload-photo-form.js';
 import './upload-photo-adjusting.js';
 import './upload-photo-filter.js';
-import {renderThumbnails, pictures} from './render-thumbnail.js';
+import { initThumbnailSorting} from './filter.js';
 import { getData } from './api.js';
-import { showAlert } from './utils.ts';
+import { showAlert} from './utils.js';
 
 getData()
-	.then((thumbnails) => {
-		renderThumbnails(thumbnails, pictures);
-	})
+	.then(initThumbnailSorting)
 	.catch((err) => {
 		showAlert(err.message);
 	});
-

@@ -1,55 +1,55 @@
 /*! nouislider - 15.6.0 - 05/01/2022 */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.noUiSlider = {}));
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.noUiSlider = {}));
 })(this, (function (exports) { 'use strict';
 
-  exports.PipsMode = void 0;
-  (function (PipsMode) {
+	exports.PipsMode = void 0;
+	(function (PipsMode) {
 	PipsMode["Range"] = "range";
 	PipsMode["Steps"] = "steps";
 	PipsMode["Positions"] = "positions";
 	PipsMode["Count"] = "count";
 	PipsMode["Values"] = "values";
-  })(exports.PipsMode || (exports.PipsMode = {}));
-  exports.PipsType = void 0;
-  (function (PipsType) {
+	})(exports.PipsMode || (exports.PipsMode = {}));
+	exports.PipsType = void 0;
+	(function (PipsType) {
 	PipsType[PipsType["None"] = -1] = "None";
 	PipsType[PipsType["NoValue"] = 0] = "NoValue";
 	PipsType[PipsType["LargeValue"] = 1] = "LargeValue";
 	PipsType[PipsType["SmallValue"] = 2] = "SmallValue";
-  })(exports.PipsType || (exports.PipsType = {}));
-  //region Helper Methods
-  function isValidFormatter(entry) {
+	})(exports.PipsType || (exports.PipsType = {}));
+	//region Helper Methods
+	function isValidFormatter(entry) {
 	return isValidPartialFormatter(entry) && typeof entry.from === "function";
-  }
-  function isValidPartialFormatter(entry) {
+	}
+	function isValidPartialFormatter(entry) {
 	// partial formatters only need a to function and not a from function
 	return typeof entry === "object" && typeof entry.to === "function";
-  }
-  function removeElement(el) {
+	}
+	function removeElement(el) {
 	el.parentElement.removeChild(el);
-  }
-  function isSet(value) {
+	}
+	function isSet(value) {
 	return value !== null && value !== undefined;
-  }
-  // Bindable version
-  function preventDefault(e) {
+	}
+	// Bindable version
+	function preventDefault(e) {
 	e.preventDefault();
-  }
-  // Removes duplicates from an array.
-  function unique(array) {
+	}
+	// Removes duplicates from an array.
+	function unique(array) {
 	return array.filter(function (a) {
 		return !this[a] ? (this[a] = true) : false;
 	}, {});
-  }
-  // Round a value to the closest 'to'.
-  function closest(value, to) {
+	}
+	// Round a value to the closest 'to'.
+	function closest(value, to) {
 	return Math.round(value / to) * to;
-  }
-  // Current position of an element relative to the document.
-  function offset(elem, orientation) {
+	}
+	// Current position of an element relative to the document.
+	function offset(elem, orientation) {
 	var rect = elem.getBoundingClientRect();
 	var doc = elem.ownerDocument;
 	var docElem = doc.documentElement;
@@ -61,59 +61,59 @@
 		pageOffset.x = 0;
 	}
 	return orientation ? rect.top + pageOffset.y - docElem.clientTop : rect.left + pageOffset.x - docElem.clientLeft;
-  }
-  // Checks whether a value is numerical.
-  function isNumeric(a) {
+	}
+	// Checks whether a value is numerical.
+	function isNumeric(a) {
 	return typeof a === "number" && !isNaN(a) && isFinite(a);
-  }
-  // Sets a class and removes it after [duration] ms.
-  function addClassFor(element, className, duration) {
+	}
+	// Sets a class and removes it after [duration] ms.
+	function addClassFor(element, className, duration) {
 	if (duration > 0) {
 		addClass(element, className);
 		setTimeout(function () {
 			removeClass(element, className);
 		}, duration);
 	}
-  }
-  // Limits a value to 0 - 100
-  function limit(a) {
+	}
+	// Limits a value to 0 - 100
+	function limit(a) {
 	return Math.max(Math.min(a, 100), 0);
-  }
-  // Wraps a variable as an array, if it isn't one yet.
-  // Note that an input array is returned by reference!
-  function asArray(a) {
+	}
+	// Wraps a variable as an array, if it isn't one yet.
+	// Note that an input array is returned by reference!
+	function asArray(a) {
 	return Array.isArray(a) ? a : [a];
-  }
-  // Counts decimals
-  function countDecimals(numStr) {
+	}
+	// Counts decimals
+	function countDecimals(numStr) {
 	numStr = String(numStr);
 	var pieces = numStr.split(".");
 	return pieces.length > 1 ? pieces[1].length : 0;
-  }
-  // http://youmightnotneedjquery.com/#add_class
-  function addClass(el, className) {
+	}
+	// http://youmightnotneedjquery.com/#add_class
+	function addClass(el, className) {
 	if (el.classList && !/\s/.test(className)) {
 		el.classList.add(className);
 	}
 	else {
 		el.className += " " + className;
 	}
-  }
-  // http://youmightnotneedjquery.com/#remove_class
-  function removeClass(el, className) {
+	}
+	// http://youmightnotneedjquery.com/#remove_class
+	function removeClass(el, className) {
 	if (el.classList && !/\s/.test(className)) {
 		el.classList.remove(className);
 	}
 	else {
 		el.className = el.className.replace(new RegExp("(^|\\b)" + className.split(" ").join("|") + "(\\b|$)", "gi"), " ");
 	}
-  }
-  // https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
-  function hasClass(el, className) {
+	}
+	// https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
+	function hasClass(el, className) {
 	return el.classList ? el.classList.contains(className) : new RegExp("\\b" + className + "\\b").test(el.className);
-  }
-  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
-  function getPageOffset(doc) {
+	}
+	// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
+	function getPageOffset(doc) {
 	var supportPageOffset = window.pageXOffset !== undefined;
 	var isCSS1Compat = (doc.compatMode || "") === "CSS1Compat";
 	var x = supportPageOffset
@@ -130,11 +130,11 @@
 		x: x,
 		y: y,
 	};
-  }
-  // we provide a function to compute constants instead
-  // of accessing window.* as soon as the module needs it
-  // so that we do not compute anything if not needed
-  function getActions() {
+	}
+	// we provide a function to compute constants instead
+	// of accessing window.* as soon as the module needs it
+	// so that we do not compute anything if not needed
+	function getActions() {
 	// Determine the events to bind. IE11 implements pointerEvents without
 	// a prefix, which breaks compatibility with the IE10 implementation.
 	return window.navigator.pointerEnabled
@@ -154,10 +154,10 @@
 				move: "mousemove touchmove",
 				end: "mouseup touchend",
 			};
-  }
-  // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
-  // Issue #785
-  function getSupportsPassive() {
+	}
+	// https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+	// Issue #785
+	function getSupportsPassive() {
 	var supportsPassive = false;
 	/* eslint-disable */
 	try {
@@ -172,37 +172,37 @@
 	catch (e) { }
 	/* eslint-enable */
 	return supportsPassive;
-  }
-  function getSupportsTouchActionNone() {
+	}
+	function getSupportsTouchActionNone() {
 	return window.CSS && CSS.supports && CSS.supports("touch-action", "none");
-  }
-  //endregion
-  //region Range Calculation
-  // Determine the size of a sub-range in relation to a full range.
-  function subRangeRatio(pa, pb) {
+	}
+	//endregion
+	//region Range Calculation
+	// Determine the size of a sub-range in relation to a full range.
+	function subRangeRatio(pa, pb) {
 	return 100 / (pb - pa);
-  }
-  // (percentage) How many percent is this value of this range?
-  function fromPercentage(range, value, startRange) {
+	}
+	// (percentage) How many percent is this value of this range?
+	function fromPercentage(range, value, startRange) {
 	return (value * 100) / (range[startRange + 1] - range[startRange]);
-  }
-  // (percentage) Where is this value on this range?
-  function toPercentage(range, value) {
+	}
+	// (percentage) Where is this value on this range?
+	function toPercentage(range, value) {
 	return fromPercentage(range, range[0] < 0 ? value + Math.abs(range[0]) : value - range[0], 0);
-  }
-  // (value) How much is this percentage on this range?
-  function isPercentage(range, value) {
+	}
+	// (value) How much is this percentage on this range?
+	function isPercentage(range, value) {
 	return (value * (range[1] - range[0])) / 100 + range[0];
-  }
-  function getJ(value, arr) {
+	}
+	function getJ(value, arr) {
 	var j = 1;
 	while (value >= arr[j]) {
 		j += 1;
 	}
 	return j;
-  }
-  // (percentage) Input a value, find where, on a scale of 0-100, it applies.
-  function toStepping(xVal, xPct, value) {
+	}
+	// (percentage) Input a value, find where, on a scale of 0-100, it applies.
+	function toStepping(xVal, xPct, value) {
 	if (value >= xVal.slice(-1)[0]) {
 		return 100;
 	}
@@ -212,9 +212,9 @@
 	var pa = xPct[j - 1];
 	var pb = xPct[j];
 	return pa + toPercentage([va, vb], value) / subRangeRatio(pa, pb);
-  }
-  // (value) Input a percentage, find where it is on the specified range.
-  function fromStepping(xVal, xPct, value) {
+	}
+	// (value) Input a percentage, find where it is on the specified range.
+	function fromStepping(xVal, xPct, value) {
 	// There is no range group that fits 100
 	if (value >= 100) {
 		return xVal.slice(-1)[0];
@@ -225,9 +225,9 @@
 	var pa = xPct[j - 1];
 	var pb = xPct[j];
 	return isPercentage([va, vb], (value - pa) * subRangeRatio(pa, pb));
-  }
-  // (percentage) Get the step that applies at a certain value.
-  function getStep(xPct, xSteps, snap, value) {
+	}
+	// (percentage) Get the step that applies at a certain value.
+	function getStep(xPct, xSteps, snap, value) {
 	if (value === 100) {
 		return value;
 	}
@@ -246,10 +246,10 @@
 		return value;
 	}
 	return xPct[j - 1] + closest(value - xPct[j - 1], xSteps[j - 1]);
-  }
-  //endregion
-  //region Spectrum
-  var Spectrum = /** @class */ (function () {
+	}
+	//endregion
+	//region Spectrum
+	var Spectrum = /** @class */ (function () {
 	function Spectrum(entry, snap, singleStep) {
 		this.xPct = [];
 		this.xVal = [];
@@ -462,10 +462,10 @@
 		this.xHighestCompleteStep[i] = step;
 	};
 	return Spectrum;
-  }());
-  //endregion
-  //region Options
-  /*	Every input option is tested and parsed. This will prevent
+	}());
+	//endregion
+	//region Options
+	/*	Every input option is tested and parsed. This will prevent
 	endless validation in internal methods. These tests are
 	structured with an item for every option available. An
 	option can be marked as required by setting the 'r' flag.
@@ -477,14 +477,14 @@
 	The testing function returns false when an error is detected,
 	or true when everything is OK. It can also modify the option
 	object, to make sure all values can be correctly looped elsewhere. */
-  //region Defaults
-  var defaultFormatter = {
+	//region Defaults
+	var defaultFormatter = {
 	to: function (value) {
 		return value === undefined ? "" : value.toFixed(2);
 	},
 	from: Number,
-  };
-  var cssClasses = {
+	};
+	var cssClasses = {
 	target: "target",
 	base: "base",
 	origin: "origin",
@@ -521,40 +521,40 @@
 	valueNormal: "value-normal",
 	valueLarge: "value-large",
 	valueSub: "value-sub",
-  };
-  // Namespaces of internal event listeners
-  var INTERNAL_EVENT_NS = {
+	};
+	// Namespaces of internal event listeners
+	var INTERNAL_EVENT_NS = {
 	tooltips: ".__tooltips",
 	aria: ".__aria",
-  };
-  //endregion
-  function testStep(parsed, entry) {
+	};
+	//endregion
+	function testStep(parsed, entry) {
 	if (!isNumeric(entry)) {
 		throw new Error("noUiSlider: 'step' is not numeric.");
 	}
 	// The step option can still be used to set stepping
 	// for linear sliders. Overwritten if set in 'range'.
 	parsed.singleStep = entry;
-  }
-  function testKeyboardPageMultiplier(parsed, entry) {
+	}
+	function testKeyboardPageMultiplier(parsed, entry) {
 	if (!isNumeric(entry)) {
 		throw new Error("noUiSlider: 'keyboardPageMultiplier' is not numeric.");
 	}
 	parsed.keyboardPageMultiplier = entry;
-  }
-  function testKeyboardMultiplier(parsed, entry) {
+	}
+	function testKeyboardMultiplier(parsed, entry) {
 	if (!isNumeric(entry)) {
 		throw new Error("noUiSlider: 'keyboardMultiplier' is not numeric.");
 	}
 	parsed.keyboardMultiplier = entry;
-  }
-  function testKeyboardDefaultStep(parsed, entry) {
+	}
+	function testKeyboardDefaultStep(parsed, entry) {
 	if (!isNumeric(entry)) {
 		throw new Error("noUiSlider: 'keyboardDefaultStep' is not numeric.");
 	}
 	parsed.keyboardDefaultStep = entry;
-  }
-  function testRange(parsed, entry) {
+	}
+	function testRange(parsed, entry) {
 	// Filter incorrect input.
 	if (typeof entry !== "object" || Array.isArray(entry)) {
 		throw new Error("noUiSlider: 'range' is not an object.");
@@ -564,8 +564,8 @@
 		throw new Error("noUiSlider: Missing 'min' or 'max' in 'range'.");
 	}
 	parsed.spectrum = new Spectrum(entry, parsed.snap || false, parsed.singleStep);
-  }
-  function testStart(parsed, entry) {
+	}
+	function testStart(parsed, entry) {
 	entry = asArray(entry);
 	// Validate input. Values aren't tested, as the public .val method
 	// will always provide a valid location.
@@ -577,28 +577,28 @@
 	// When the slider is initialized, the .val method will
 	// be called with the start options.
 	parsed.start = entry;
-  }
-  function testSnap(parsed, entry) {
+	}
+	function testSnap(parsed, entry) {
 	if (typeof entry !== "boolean") {
 		throw new Error("noUiSlider: 'snap' option must be a boolean.");
 	}
 	// Enforce 100% stepping within subranges.
 	parsed.snap = entry;
-  }
-  function testAnimate(parsed, entry) {
+	}
+	function testAnimate(parsed, entry) {
 	if (typeof entry !== "boolean") {
 		throw new Error("noUiSlider: 'animate' option must be a boolean.");
 	}
 	// Enforce 100% stepping within subranges.
 	parsed.animate = entry;
-  }
-  function testAnimationDuration(parsed, entry) {
+	}
+	function testAnimationDuration(parsed, entry) {
 	if (typeof entry !== "number") {
 		throw new Error("noUiSlider: 'animationDuration' option must be a number.");
 	}
 	parsed.animationDuration = entry;
-  }
-  function testConnect(parsed, entry) {
+	}
+	function testConnect(parsed, entry) {
 	var connect = [false];
 	var i;
 	// Map legacy options
@@ -623,8 +623,8 @@
 		connect = entry;
 	}
 	parsed.connect = connect;
-  }
-  function testOrientation(parsed, entry) {
+	}
+	function testOrientation(parsed, entry) {
 	// Set orientation to an a numerical value for easy
 	// array selection.
 	switch (entry) {
@@ -637,8 +637,8 @@
 		default:
 			throw new Error("noUiSlider: 'orientation' option is invalid.");
 	}
-  }
-  function testMargin(parsed, entry) {
+	}
+	function testMargin(parsed, entry) {
 	if (!isNumeric(entry)) {
 		throw new Error("noUiSlider: 'margin' option must be numeric.");
 	}
@@ -647,8 +647,8 @@
 		return;
 	}
 	parsed.margin = parsed.spectrum.getDistance(entry);
-  }
-  function testLimit(parsed, entry) {
+	}
+	function testLimit(parsed, entry) {
 	if (!isNumeric(entry)) {
 		throw new Error("noUiSlider: 'limit' option must be numeric.");
 	}
@@ -656,8 +656,8 @@
 	if (!parsed.limit || parsed.handles < 2) {
 		throw new Error("noUiSlider: 'limit' option is only supported on linear sliders with 2 or more handles.");
 	}
-  }
-  function testPadding(parsed, entry) {
+	}
+	function testPadding(parsed, entry) {
 	var index;
 	if (!isNumeric(entry) && !Array.isArray(entry)) {
 		throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
@@ -685,8 +685,8 @@
 	if (totalPadding / (lastValue - firstValue) > 1) {
 		throw new Error("noUiSlider: 'padding' option must not exceed 100% of the range.");
 	}
-  }
-  function testDirection(parsed, entry) {
+	}
+	function testDirection(parsed, entry) {
 	// Set direction as a numerical value for easy parsing.
 	// Invert connection for RTL sliders, so that the proper
 	// handles get the connect/background classes.
@@ -700,8 +700,8 @@
 		default:
 			throw new Error("noUiSlider: 'direction' option was not recognized.");
 	}
-  }
-  function testBehaviour(parsed, entry) {
+	}
+	function testBehaviour(parsed, entry) {
 	// Make sure the input is a string.
 	if (typeof entry !== "string") {
 		throw new Error("noUiSlider: 'behaviour' must be a string containing options.");
@@ -736,8 +736,8 @@
 		hover: hover,
 		unconstrained: unconstrained,
 	};
-  }
-  function testTooltips(parsed, entry) {
+	}
+	function testTooltips(parsed, entry) {
 	if (entry === false) {
 		return;
 	}
@@ -759,42 +759,42 @@
 		});
 		parsed.tooltips = entry;
 	}
-  }
-  function testHandleAttributes(parsed, entry) {
+	}
+	function testHandleAttributes(parsed, entry) {
 	if (entry.length !== parsed.handles) {
 		throw new Error("noUiSlider: must pass a attributes for all handles.");
 	}
 	parsed.handleAttributes = entry;
-  }
-  function testAriaFormat(parsed, entry) {
+	}
+	function testAriaFormat(parsed, entry) {
 	if (!isValidPartialFormatter(entry)) {
 		throw new Error("noUiSlider: 'ariaFormat' requires 'to' method.");
 	}
 	parsed.ariaFormat = entry;
-  }
-  function testFormat(parsed, entry) {
+	}
+	function testFormat(parsed, entry) {
 	if (!isValidFormatter(entry)) {
 		throw new Error("noUiSlider: 'format' requires 'to' and 'from' methods.");
 	}
 	parsed.format = entry;
-  }
-  function testKeyboardSupport(parsed, entry) {
+	}
+	function testKeyboardSupport(parsed, entry) {
 	if (typeof entry !== "boolean") {
 		throw new Error("noUiSlider: 'keyboardSupport' option must be a boolean.");
 	}
 	parsed.keyboardSupport = entry;
-  }
-  function testDocumentElement(parsed, entry) {
+	}
+	function testDocumentElement(parsed, entry) {
 	// This is an advanced option. Passed values are used without validation.
 	parsed.documentElement = entry;
-  }
-  function testCssPrefix(parsed, entry) {
+	}
+	function testCssPrefix(parsed, entry) {
 	if (typeof entry !== "string" && entry !== false) {
 		throw new Error("noUiSlider: 'cssPrefix' must be a string or `false`.");
 	}
 	parsed.cssPrefix = entry;
-  }
-  function testCssClasses(parsed, entry) {
+	}
+	function testCssClasses(parsed, entry) {
 	if (typeof entry !== "object") {
 		throw new Error("noUiSlider: 'cssClasses' must be an object.");
 	}
@@ -807,9 +807,9 @@
 	else {
 		parsed.cssClasses = entry;
 	}
-  }
-  // Test all developer settings and parse to assumption-safe values.
-  function testOptions(options) {
+	}
+	// Test all developer settings and parse to assumption-safe values.
+	function testOptions(options) {
 	// To prove a fix for #537, freeze options here.
 	// If the object is modified, an error will be thrown.
 	// Object.freeze(options);
@@ -895,9 +895,9 @@
 	];
 	parsed.style = styles[parsed.dir][parsed.ort];
 	return parsed;
-  }
-  //endregion
-  function scope(target, options, originalOptions) {
+	}
+	//endregion
+	function scope(target, options, originalOptions) {
 	var actions = getActions();
 	var supportsTouchActionNone = getSupportsTouchActionNone();
 	var supportsPassive = supportsTouchActionNone && getSupportsPassive();
@@ -2221,9 +2221,9 @@
 		pips: pips, // Issue #594
 	};
 	return scope_Self;
-  }
-  // Run the standard initializer
-  function initialize(target, originalOptions) {
+	}
+	// Run the standard initializer
+	function initialize(target, originalOptions) {
 	if (!target || !target.nodeName) {
 		throw new Error("noUiSlider: create requires a single element, got: " + target);
 	}
@@ -2236,20 +2236,20 @@
 	var api = scope(target, options, originalOptions);
 	target.noUiSlider = api;
 	return api;
-  }
-  var nouislider = {
+	}
+	var nouislider = {
 	// Exposed for unit testing, don't use this in your application.
 	__spectrum: Spectrum,
 	// A reference to the default classes, allows global changes.
 	// Use the cssClasses option for changes to one slider.
 	cssClasses: cssClasses,
 	create: initialize,
-  };
+	};
 
-  exports.create = initialize;
-  exports.cssClasses = cssClasses;
-  exports["default"] = nouislider;
+	exports.create = initialize;
+	exports.cssClasses = cssClasses;
+	exports["default"] = nouislider;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+	Object.defineProperty(exports, '__esModule', { value: true });
 
 }));

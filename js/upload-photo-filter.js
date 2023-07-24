@@ -3,9 +3,9 @@ import {uploadedPicture} from './upload-photo-form';
 
 const slider = document.querySelector('.effect-level__slider');
 const sliderValue = document.querySelector('.effect-level__value');
-const sliderContainer = document.querySelector('.effect-level');
+const sliderElement = document.querySelector('.effect-level');
 const sliderEffects = document.querySelector('.effects');
-sliderContainer.classList.add('hidden');
+sliderElement.classList.add('hidden');
 
 const chromeEffect = {
 	name: 'grayscale',
@@ -86,9 +86,9 @@ const applyEffect = (effect) => {
 	if (effect.name === 'none') {
 		uploadedPicture.style.filter = 'none';
 		slider.noUiSlider.destroy();
-		sliderContainer.classList.add('hidden');
+		sliderElement.classList.add('hidden');
 	} else {
-		sliderContainer.classList.remove('hidden');
+		sliderElement.classList.remove('hidden');
 		createSlider(effect);
 		uploadedPicture.style.filter = `${effect.name}(${effect.value}${effect.unit})`;
 		slider.noUiSlider.on('update', () => {
@@ -109,7 +109,7 @@ for (const id in effects) {
 
 const resetEffectInModal = (value) => {
 	uploadedPicture.style.filter = `${value}`;
-	sliderContainer.classList.add('hidden');
+	sliderElement.classList.add('hidden');
 };
 
 export const resetEffect = () => resetEffectInModal(defaultEffect.name);
