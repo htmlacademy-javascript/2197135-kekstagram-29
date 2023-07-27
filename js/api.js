@@ -2,87 +2,87 @@ import { isEscapeKey } from './utils';
 
 const BASE_URL = 'https://29.javascript.pages.academy/kekstagram';
 const Route = {
-	GET_DATA: '/data',
-	SEND_DATA: '/',
+  GET_DATA: '/data',
+  SEND_DATA: '/',
 };
 
 const ErrorText = {
-	GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
-	SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
 
 const successUploadMessageTemplate = document
-	.querySelector('#success')
-	.content.querySelector('.success');
+  .querySelector('#success')
+  .content.querySelector('.success');
 const errorUploadMessageTemplate = document
-	.querySelector('#error')
-	.content.querySelector('.error');
+  .querySelector('#error')
+  .content.querySelector('.error');
 
 const showMessage = (messageTemplate) => {
-	const messageElement = messageTemplate.cloneNode(true);
-	const messageButton = messageElement.querySelector('button');
+  const messageElement = messageTemplate.cloneNode(true);
+  const messageButton = messageElement.querySelector('button');
 
-	const closeMessage = () => {
-		document.body.removeChild(messageElement);
-		document.removeEventListener('keydown', onDocumentKeydown, true);
-		document.removeEventListener('click', onDocumentClick);
-	};
+  const closeMessage = () => {
+    document.body.removeChild(messageElement);
+    document.removeEventListener('keydown', onDocumentKeydown, true);
+    document.removeEventListener('click', onDocumentClick);
+  };
 
-	function onDocumentKeydown(evt) {
-		if (isEscapeKey(evt)) {
-			closeMessage();
-			evt.stopPropagation();
-		}
-	}
+  function onDocumentKeydown(evt) {
+    if (isEscapeKey(evt)) {
+      closeMessage();
+      evt.stopPropagation();
+    }
+  }
 
-	function onDocumentClick(evt) {
-		if (evt.target === messageElement) {
-			closeMessage();
-		}
-	}
+  function onDocumentClick(evt) {
+    if (evt.target === messageElement) {
+      closeMessage();
+    }
+  }
 
-	messageButton.addEventListener('click', (evt) => {
-		evt.preventDefault();
-		closeMessage();
-	});
+  messageButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    closeMessage();
+  });
 
-	document.addEventListener('keydown', onDocumentKeydown, true);
-	document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown, true);
+  document.addEventListener('click', onDocumentClick);
 
-	document.body.append(messageElement);
+  document.body.append(messageElement);
 };
 const showErrorAlert = () => {
-	showMessage(errorUploadMessageTemplate);
+  showMessage(errorUploadMessageTemplate);
 };
 
 const showSuccessAlert = () => {
-	showMessage(successUploadMessageTemplate);
+  showMessage(successUploadMessageTemplate);
 };
 
 const getData = () =>
-	fetch(`${BASE_URL}${Route.GET_DATA}`)
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error();
-			}
-			return response.json();
-		})
-		.catch(() => {
-			throw new Error(ErrorText.GET_DATA);
-		});
+  fetch(`${BASE_URL}${Route.GET_DATA}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .catch(() => {
+      throw new Error(ErrorText.GET_DATA);
+    });
 
 const sendData = (body) =>
-	fetch(`${BASE_URL}${Route.SEND_DATA}`, {
-		method: 'POST',
-		body,
-	})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error();
-			}
-		})
-		.catch(() => {
-			throw new Error();
-		});
+  fetch(`${BASE_URL}${Route.SEND_DATA}`, {
+    method: 'POST',
+    body,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+    })
+    .catch(() => {
+      throw new Error();
+    });
 
 export { getData, sendData, showSuccessAlert, showErrorAlert };
