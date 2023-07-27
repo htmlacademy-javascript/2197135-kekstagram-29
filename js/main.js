@@ -8,7 +8,7 @@ import { showAlert} from './utils.js';
 
 
 getData()
-	.then(initThumbnailSorting)
-	.catch((err) => {
-		showAlert(err.message);
-	});
+  .then(initThumbnailSorting)
+  .catch((err) => {
+    showAlert(err.message);
+  });

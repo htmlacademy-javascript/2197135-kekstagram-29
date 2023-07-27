@@ -9,28 +9,28 @@ const SCALE_STEP = 25;
 let currentScale = 100;
 
 const updateScale = () => {
-	uploadedPicture.style.transform = `scale(${currentScale / 100})`;
-	scaleValue.value = `${currentScale}%`;
+  uploadedPicture.style.transform = `scale(${currentScale / 100})`;
+  scaleValue.value = `${currentScale}%`;
 };
 
 reduceScaleButton.addEventListener('click', (evt) => {
-	evt.preventDefault();
-	if (currentScale > SCALE_STEP) {
-		currentScale -= SCALE_STEP;
-		updateScale();
-	}
+  evt.preventDefault();
+  if (currentScale > SCALE_STEP) {
+    currentScale -= SCALE_STEP;
+    updateScale();
+  }
 });
 
 increaseScaleButton.addEventListener('click', (evt) => {
-	evt.preventDefault();
-	if (MAX_PICTURE_SCALE >= currentScale + SCALE_STEP) {
-		currentScale += SCALE_STEP;
-		updateScale();
-	}
+  evt.preventDefault();
+  if (MAX_PICTURE_SCALE >= currentScale + SCALE_STEP) {
+    currentScale += SCALE_STEP;
+    updateScale();
+  }
 });
 
 
 export const resetPicture = () => {
-	currentScale = MAX_PICTURE_SCALE;
-	updateScale();
+  currentScale = MAX_PICTURE_SCALE;
+  updateScale();
 };
