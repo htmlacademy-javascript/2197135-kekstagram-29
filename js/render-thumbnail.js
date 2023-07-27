@@ -30,4 +30,3 @@ export const renderThumbnails = (photos) => {
 	fragment.append(...thumbnails);
 	picturesElement.append(fragment);
 };
-
