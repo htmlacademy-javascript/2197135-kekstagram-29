@@ -56,12 +56,8 @@ imageHashtagField.addEventListener('blur', () => {
 	pristine.validate();
 });
 
-const blockSubmitButton = () => {
-	submitButton.disabled = true;
-};
-
-const unblockSubmitButton = () => {
-	submitButton.disabled = false;
+const toggleSubmitButton = (state) => {
+	submitButton.disabled = state;
 };
 
 export const showModal = () => {
@@ -84,7 +80,7 @@ imageUploadForm.addEventListener('submit', (evt) => {
 	evt.preventDefault();
 	const isValid = pristine.validate();
 	if(isValid) {
-		blockSubmitButton();
+		toggleSubmitButton(true);
 		sendData(new FormData(imageUploadForm))
 			.then(() => {
 				hideModal();
@@ -93,7 +89,9 @@ imageUploadForm.addEventListener('submit', (evt) => {
 			.catch(() => {
 				showErrorAlert();
 			})
-			.finally(unblockSubmitButton);
+			.finally(() => {
+				toggleSubmitButton(false);
+			});
 	}
 });
 

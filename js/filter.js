@@ -50,4 +50,3 @@ export const initThumbnailSorting = (recievedPhotos) => {
 	picturesFilters.classList.remove('img-filters--inactive');
 	renderThumbnails(recievedPhotos);
 };
-
